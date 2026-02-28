@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Practical - 9</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --dark: #0d0d0d;
+    --accent: #e63946;
+    --light: #f8f8f8;
+    --mid: #888;
+    --card-bg: #fff;
+    --section-pad: 80px 24px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--light);
+    color: var(--dark);
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(13,13,13,0.96);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    height: 60px;
+  }
+
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: #fff;
+    letter-spacing: 0.08em;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-decoration: none;
+    color: #aaa;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--accent); }
+
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 4px;
+  }
+
+  .hamburger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: #fff;
+    transition: all 0.3s;
+  }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    height: 80vh;
+    min-height: 480px;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+  }
+
+  .hero-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.35);
+  }
+
+  .hero-content {
+    position: relative;
+    padding: 48px;
+    max-width: 700px;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .hero-content h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.5rem, 7vw, 5rem);
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+
+  .hero-content h1 span {
+    color: var(--accent);
+  }
+
+  .hero-content p {
+    margin-top: 16px;
+    color: rgba(255,255,255,0.65);
+    font-size: 1rem;
+    max-width: 440px;
+    line-height: 1.6;
+  }
+
+  /* SECTIONS */
+  section {
+    padding: var(--section-pad);
+  }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 56px;
+    letter-spacing: -0.02em;
+    position: relative;
+  }
+
+  .section-title::after {
+    content: '';
+    display: block;
+    width: 48px;
+    height: 3px;
+    background: var(--accent);
+    margin: 12px auto 0;
+    border-radius: 2px;
+  }
+
+  /* TEAM */
+  #team {
+    background: #fff;
+  }
+
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 32px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .team-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .team-card:nth-child(2) { animation-delay: 0.1s; }
+  .team-card:nth-child(3) { animation-delay: 0.2s; }
+  .team-card:nth-child(4) { animation-delay: 0.3s; }
+
+  .avatar-wrap {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid var(--accent);
+    box-shadow: 0 8px 24px rgba(230,57,70,0.18);
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+  }
+
+  .avatar-wrap:hover {
+    transform: translateY(-6px) scale(1.04);
+    box-shadow: 0 16px 36px rgba(230,57,70,0.28);
+  }
+
+  .avatar-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .team-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .team-card p {
+    font-size: 0.82rem;
+    color: var(--mid);
+    text-align: center;
+  }
+
+  /* ABOUT */
+  #about {
+    background: var(--light);
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    max-width: 1000px;
+    margin: 0 auto;
+    align-items: start;
+  }
+
+  .about-text {
+    background: #fff;
+    border-radius: 12px;
+    padding: 32px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+    border-left: 4px solid var(--accent);
+  }
+
+  .about-text h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 14px;
+    color: var(--dark);
+  }
+
+  .about-text p {
+    font-size: 0.88rem;
+    line-height: 1.75;
+    color: #555;
+    text-align: justify;
+  }
+
+  .projects-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .project-card {
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+    display: flex;
+    align-items: center;
+    gap: 0;
+    transition: transform 0.25s;
+  }
+
+  .project-card:hover { transform: translateX(6px); }
+
+  .project-thumb {
+    width: 110px;
+    height: 80px;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .project-info {
+    padding: 12px 16px;
+  }
+
+  .project-info h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .project-info p {
+    font-size: 0.78rem;
+    color: var(--mid);
+    line-height: 1.5;
+  }
+
+  /* TECHNOLOGIES */
+  #technologies {
+    background: var(--dark);
+    color: #fff;
+  }
+
+  #technologies .section-title {
+    color: #fff;
+  }
+
+  .tech-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 24px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .tech-card {
+    background: #1a1a1a;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid #2a2a2a;
+    transition: transform 0.3s, border-color 0.3s;
+  }
+
+  .tech-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--accent);
+  }
+
+  .tech-card-img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+  }
+
+  /* Placeholder colored banners for tech cards */
+  .tech-banner {
+    width: 100%;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+
+  .tech-banner.html { background: linear-gradient(135deg, #e34c26 0%, #f06529 100%); color: #fff; }
+  .tech-banner.css  { background: linear-gradient(135deg, #264de4 0%, #2965f1 100%); color: #fff; }
+  .tech-banner.js   { background: linear-gradient(135deg, #f7df1e 0%, #e8c900 100%); color: #333; }
+  .tech-banner.bs   { background: linear-gradient(135deg, #6f42c1 0%, #563d7c 100%); color: #fff; }
+
+  .tech-body {
+    padding: 18px 20px;
+  }
+
+  .tech-body h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #fff;
+  }
+
+  .tech-body p {
+    font-size: 0.8rem;
+    color: #888;
+    line-height: 1.6;
+    margin-bottom: 14px;
+  }
+
+  .btn-read {
+    display: block;
+    text-align: center;
+    background: var(--accent);
+    color: #fff;
+    text-decoration: none;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 10px;
+    border-radius: 6px;
+    transition: background 0.2s, transform 0.2s;
+  }
+
+  .btn-read:hover { background: #c1121f; transform: scale(1.03); }
+
+  /* CONTACT */
+  #contact {
+    background: #fff;
+  }
+
+  .contact-form {
+    max-width: 560px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .contact-form input,
+  .contact-form textarea {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    padding: 14px 16px;
+    border: 1.5px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.2s;
+    resize: vertical;
+  }
+
+  .contact-form input:focus,
+  .contact-form textarea:focus {
+    border-color: var(--accent);
+  }
+
+  .contact-form button {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    padding: 14px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .contact-form button:hover { background: #c1121f; }
+
+  /* FOOTER */
+  footer {
+    background: var(--dark);
+    color: #888;
+    text-align: center;
+    padding: 24px;
+    font-size: 0.8rem;
+  }
+
+  footer a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  footer a:hover { text-decoration: underline; }
+
+  .back-to-top {
+    display: inline-block;
+    margin-top: 8px;
+    font-size: 0.78rem;
+    color: #555;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .back-to-top:hover { color: #fff; }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Mobile nav */
+  .mobile-menu {
+    display: none;
+    flex-direction: column;
+    background: rgba(13,13,13,0.98);
+    padding: 20px 40px 28px;
+  }
+
+  .mobile-menu.open { display: flex; }
+
+  .mobile-menu a {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: #aaa;
+    text-decoration: none;
+    padding: 12px 0;
+    border-bottom: 1px solid #222;
+    transition: color 0.2s;
+  }
+
+  .mobile-menu a:last-child { border-bottom: none; }
+  .mobile-menu a:hover { color: var(--accent); }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+
+    .hero-content { padding: 32px 24px; }
+
+    .about-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .projects-stack {
+      order: -1;
+    }
+
+    .tech-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 500px) {
+    :root { --section-pad: 56px 16px; }
+
+    .tech-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .team-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    nav { padding: 0 20px; }
+    .mobile-menu { padding: 16px 24px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="top">
+  <div class="nav-logo">P·9</div>
+  <ul class="nav-links">
+    <li><a href="#top">HOME</a></li>
+    <li><a href="#about">ABOUT</a></li>
+    <li><a href="#team">TEAM</a></li>
+    <li><a href="#technologies">TECHNOLOGIES</a></li>
+    <li><a href="#contact">CONTACT</a></li>
+  </ul>
+  <button class="hamburger" id="ham" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#top" onclick="closeMenu()">HOME</a>
+  <a href="#about" onclick="closeMenu()">ABOUT</a>
+  <a href="#team" onclick="closeMenu()">TEAM</a>
+  <a href="#technologies" onclick="closeMenu()">TECHNOLOGIES</a>
+  <a href="#contact" onclick="closeMenu()">CONTACT</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <img class="hero-img" src="https://images.unsplash.com/photo-1537432376769-00f5c2f4c8d2?w=1400&q=80" alt="Coding workspace">
+  <div class="hero-content">
+    <h1>PRACTICAL<span> — 9</span></h1>
+    <p>A fully responsive one-page website showcasing team members, projects, and the core web technologies that power modern development.</p>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section id="team">
+  <h2 class="section-title">Team Members</h2>
+  <div class="team-grid">
+    <div class="team-card">
+      <div class="avatar-wrap">
+        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Alex&backgroundColor=b6e3f4" alt="Alex">
+      </div>
+      <h3>Alex Kumar</h3>
+      <p>Lead Developer</p>
+    </div>
+    <div class="team-card">
+      <div class="avatar-wrap">
+        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Priya&backgroundColor=ffd5dc&top=longHair" alt="Priya">
+      </div>
+      <h3>Priya Sharma</h3>
+      <p>UI Designer</p>
+    </div>
+    <div class="team-card">
+      <div class="avatar-wrap">
+        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Nisha&backgroundColor=d1f7c4&top=longHairStraight" alt="Nisha">
+      </div>
+      <h3>Nisha Patel</h3>
+      <p>Frontend Dev</p>
+    </div>
+    <div class="team-card">
+      <div class="avatar-wrap">
+        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Riya&backgroundColor=f9c6d0&accessories=round" alt="Riya">
+      </div>
+      <h3>Riya Mehta</h3>
+      <p>QA Engineer</p>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <h2 class="section-title">About Us</h2>
+  <div class="about-grid">
+    <div class="about-text">
+      <h3>About Projects</h3>
+      <p>
+        Temporibus similique sit tenetur quasi exercitationem! Repellat obcaecati quibusdam iste explicabo laborum veritatis velit accusantium animi dolorum nemo ut quam, quo cum in suscipit fugiat minima corrupti voluptates tempora alias aspernatur esse dolore iure? Libero iste quo nam sequi nulla, minima architecto est cum expedita omnis enim culpa reiciendis nesciunt quod deserunt, nostrum corporis tempore impedit veritatis ut perspiciatis rerum. Amet, harum pariatur. Quo dolorum necessitatibus eos beatae eveniet, earum cum blanditiis, accusamus vitae, nisi voluptas dignissimos modi quibusdam aut veniam deserunt accusantium possimus atque? Distinctio voluptas nemo, fuga laboriosam perspiciatis eum debitis nesciunt quidem iure ratione! Eaque ea eum maxime temporibus dolor nostrum, iure enim, vero in atque quod animi! Mollitia alias magnam nisi suscipit ab ducimus dolores.
+      </p>
+    </div>
+    <div class="projects-stack">
+      <div class="project-card">
+        <img class="project-thumb" src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=220&q=70" alt="Project 1">
+        <div class="project-info">
+          <h4>Project-1</h4>
+          <p>Analytics dashboard with real-time data visualization.</p>
+        </div>
+      </div>
+      <div class="project-card">
+        <img class="project-thumb" src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=220&q=70" alt="Project 2">
+        <div class="project-info">
+          <h4>Project-2</h4>
+          <p>Web app built with modern frontend frameworks.</p>
+        </div>
+      </div>
+      <div class="project-card">
+        <img class="project-thumb" src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=220&q=70" alt="Project 3">
+        <div class="project-info">
+          <h4>Project-3</h4>
+          <p>Collaborative workspace tool with live sync.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TECHNOLOGIES -->
+<section id="technologies">
+  <h2 class="section-title">Technologies Used</h2>
+  <div class="tech-grid">
+    <div class="tech-card">
+      <div class="tech-banner html">HTML5</div>
+      <div class="tech-body">
+        <h3>Introduction to HTML</h3>
+        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Suscipit, illum odio! Aperiam esse quia blanditiis quasi? Cum itaque recusandae consequuntur!</p>
+        <a href="#" class="btn-read">Read More</a>
+      </div>
+    </div>
+    <div class="tech-card">
+      <div class="tech-banner css">CSS3</div>
+      <div class="tech-body">
+        <h3>Introduction to CSS</h3>
+        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Suscipit, illum odio! Aperiam esse quia blanditiis quasi? Cum itaque recusandae consequuntur!</p>
+        <a href="#" class="btn-read">Read More</a>
+      </div>
+    </div>
+    <div class="tech-card">
+      <div class="tech-banner js">jQuery</div>
+      <div class="tech-body">
+        <h3>Introduction to JavaScript</h3>
+        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Suscipit, illum odio! Aperiam esse quia blanditiis quasi? Cum itaque recusandae consequuntur!</p>
+        <a href="#" class="btn-read">Read More</a>
+      </div>
+    </div>
+    <div class="tech-card">
+      <div class="tech-banner bs">Bootstrap</div>
+      <div class="tech-body">
+        <h3>Introduction to Bootstrap</h3>
+        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Suscipit, illum odio! Aperiam esse quia blanditiis quasi? Cum itaque recusandae consequuntur!</p>
+        <a href="#" class="btn-read">Read More</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <h2 class="section-title">Contact</h2>
+  <form class="contact-form" onsubmit="return handleSubmit(event)">
+    <input type="text" placeholder="Your Name" required>
+    <input type="email" placeholder="Your Email" required>
+    <input type="text" placeholder="Subject">
+    <textarea rows="5" placeholder="Your Message" required></textarea>
+    <button type="submit">SEND MESSAGE</button>
+  </form>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>Website Template for Practical-9 &copy; <a href="#">Beta-labs</a></p>
+  <br>
+  <a class="back-to-top" href="#top">↑ Back to top</a>
+</footer>
+
+<script>
+  // Hamburger menu
+  const ham = document.getElementById('ham');
+  const mobileMenu = document.getElementById('mobileMenu');
+
+  ham.addEventListener('click', () => {
+    mobileMenu.classList.toggle('open');
+  });
+
+  function closeMenu() {
+    mobileMenu.classList.remove('open');
+  }
+
+  // Contact form
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('button');
+    btn.textContent = 'MESSAGE SENT ✓';
+    btn.style.background = '#2a9d4e';
+    setTimeout(() => {
+      btn.textContent = 'SEND MESSAGE';
+      btn.style.background = '';
+      e.target.reset();
+    }, 3000);
+    return false;
+  }
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.animation = 'fadeUp 0.6s ease both';
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.tech-card, .project-card, .about-text').forEach(el => {
+    el.style.opacity = '0';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
