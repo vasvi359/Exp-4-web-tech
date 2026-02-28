@@ -63,11 +63,10 @@ Used for understanding responsive design principles and component-based styling.
 ---
 
 ## 👥 Team Members
-
-- Alex Kumar – Lead Developer  
-- Priya Sharma – UI Designer  
-- Nisha Patel – Frontend Developer  
-- Riya Mehta – QA Engineer  
+1. Vasvi Bali – Lead Developer  
+2. Anubhav Rajput – UI Designer  
+3. Aryan Sharma – Frontend Developer  
+4. Aman K Yadav – QA Engineer  
 
 ---
 
